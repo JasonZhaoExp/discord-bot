@@ -1,7 +1,7 @@
 # Voicebot
 
 ## What is it?
-This is a Discord bot designed specifically for [Voicebox's Kingdom](https://discord.gg/pkbMEsJVwx).
+This is a Discord bot designed specifically for [Voicebox's Kingdom](https://discord.gg/pkbMEsJVwx), but I've released it to the public so anyone can use it.
 
 ## Features
 
@@ -20,10 +20,11 @@ This is a Discord bot designed specifically for [Voicebox's Kingdom](https://dis
     - [ ] Heist  
     - [ ] Cash events  
     - [ ] Work  
-    - [x] Shop  
+    - [ ] Shop  
     - [ ] Trade  
-    - [x] Inventory
+    - [ ] Inventory
     - [ ] Bank
+    - [ ] Fish
 
 ### Admin Level
 - [x] **User Management**
@@ -36,40 +37,45 @@ This is a Discord bot designed specifically for [Voicebox's Kingdom](https://dis
 - [x] **Stop**
 
 ## Folder Structure
-
-my_discord_bot/ ├── bot.py
+```
+my_discord_bot/ 
+├── bot.py
 ├── cogs/
-│ ├── init.py
 │ ├── user/
-│ │ ├── init.py
 │ │ ├── currency.py
-│ │ ├── fun.py
-│ │ ├── summoning.py
 │ │ ├── utility.py
 │ ├── admin/
 │ │ ├── init.py
-│ │ ├── administration.py │ │ ├── currency.py
+│ │ ├── administration.py 
+│ │ ├── currency.py
+│ │ ├── utility.py
 │ ├── owner/
 │ │ ├── init.py
-│ │ ├── administration.py ├── data/
+│ │ ├── owner.py 
+├── data/
 │ ├── summons.json
 │ ├── user_ids.json
+│ ├── currency.json
+│ ├── inventory.json
+│ ├── shop.json
+│ ├── loottables.json
 ├── utils/
-│ ├── init.py
 │ ├── helpers.py
-| ├── messagecache.py 
 ├── requirements.txt
 ├── config.py
+├── .gitignore
+├── requirements.txt
+├── LICENSE
 └── README.md
-
+```
 ## How to Use
 
 1. **Clone the Repository**  
    Use the following command to clone the repository to your local machine:
-   `bash git clone <repository_url>`
+   > `git clone https://github.com/JasonZhaoExp/VoiceBot`
 2. **Install dependencies**
    Make sure you have python installed, then install the required packages using:
-   `pip install -r requirements.txt`
+   > `pip install -r requirements.txt`
 3. **Set up configuration**
    Create a `config.py` file in the root directory and add the following configuration variables:
    ```py
@@ -86,4 +92,4 @@ my_discord_bot/ ├── bot.py
 - Open a PR for new features or bug fixes.
 
 ## License
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for detail.
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.

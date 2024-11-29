@@ -1,3 +1,18 @@
+# This file is part of VoiceBot.
+# VoiceBot is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# VoiceBot is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with VoiceBot. If not, see <http://www.gnu.org/licenses/>.
+
+
 import discord
 from discord.ext import commands
 from utils.helpers import bot_manager
@@ -12,7 +27,7 @@ class Utility(commands.Cog):
     ### AFK SYSTEM ###
     @commands.command()
     @is_user_allowed()
-    async def afk(self, ctx, *, message: str = "AFK"):
+    async def afk(self, ctx, *, message: str = "Not specified"):
         """Set yourself as AFK with an optional message."""
         bot_manager.afk[ctx.author.id] = message
         await ctx.send(f"{ctx.author.mention} is now AFK: {message}")
