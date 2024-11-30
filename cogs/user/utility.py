@@ -18,7 +18,8 @@ from discord.ext import commands
 from utils.helpers import bot_manager
 from utils.helpers import is_user_allowed
 from config import PREFIX
-
+import datetime
+import time
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -132,6 +133,67 @@ class Utility(commands.Cog):
             await ctx.send(f"Your summon list: {member_list}")
         else:
             await ctx.send("Your summon list is empty!")
+    
+    @commands.group(name="birthday", invoke_without_command=True)
+    async def birthday_group(self, ctx):
+        """Main group for birthday-related commands."""
+        await ctx.send("Available subcommands: set, remove, check, today")
+
+    @birthday_group.command(name="set")
+    async def set_birthday(self, ctx, date: str):
+        """
+        Set your birthday in DD-MM format.
+        :param date: The birthday date (e.g., "25-12").
+        """
+        try:
+            user_id = str(ctx.author.id)
+            # Validate date format
+            datetime.strptime(date, "%d-%m")
+            bot_manager.birthdays[user_id] = date
+            await bot_manager.save_birthdays()
+            await ctx.send(f"Your birthday has been set to {date}.")
+        except ValueError:
+            await ctx.send("Invalid date format. Please use DD-MM.")
+
+    @birthday_group.command(name="remove")
+    async def remove_birthday(self, ctx):
+        """Remove your birthday from the tracker."""
+        user_id = str(ctx.author.id)
+        if user_id in bot_manager.birthdays:
+            del bot_manager.birthdays[user_id]
+            await bot_manager.save_birthdays()
+            await ctx.send("Your birthday has been removed.")
+        else:
+            await ctx.send("You do not have a birthday set.")
+
+    @birthday_group.command(name="check")
+    async def check_birthday(self, ctx, member: commands.MemberConverter = None):
+        """
+        Check someone's birthday.
+        :param member: The member to check (defaults to the caller).
+        """
+        member = member or ctx.author
+        user_id = str(member.id)
+        birthday = bot_manager.birthdays.get(user_id)
+        if birthday:
+            await ctx.send(f"{member.display_name}'s birthday is on {birthday}.")
+        else:
+            await ctx.send(f"{member.display_name} has not set a birthday.")
+
+    @birthday_group.command(name="today")
+    async def birthdays_today(self, ctx):
+        """List all users who have their birthday today."""
+        today = time.strftime("%d-%m")
+        birthday_users = [
+            ctx.guild.get_member(int(user_id))
+            for user_id, date in bot_manager.birthdays.items()
+            if date == today
+        ]
+        if birthday_users:
+            mentions = ", ".join([member.mention for member in birthday_users if member])
+            await ctx.send(f"🎉 Today's birthdays: {mentions}")
+        else:
+            await ctx.send("No birthdays today.")
 
 
 # Add cog to bot

@@ -184,6 +184,56 @@ class BotManager:
                 cache[0]["timestamp"] > age_limit or len(cache) > max_entries
         ):
             cache.popleft()
+    
+    # Birthday-related methods
+    async def load_birthdays(self):
+        """Load birthday data from the JSON file."""
+        try:
+            with open(self.data_files["birthdays"], "r") as file:
+                self.birthdays = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            print("Birthdays data not found or invalid. Initializing with empty data.")
+            self.birthdays = {}
+
+    async def save_birthdays(self):
+        """Save birthday data to the JSON file."""
+        try:
+            with open(self.data_files["birthdays"], "w") as file:
+                json.dump(self.birthdays, file, indent=4)
+        except Exception as e:
+            print(f"Error saving birthdays data: {e}")
+
+    def set_birthday(self, user_id, date):
+        """
+        Set a user's birthday.
+        :param user_id: The ID of the user.
+        :param date: The birthday date in "DD-MM" format.
+        """
+        self.birthdays[str(user_id)] = date
+
+    def remove_birthday(self, user_id):
+        """
+        Remove a user's birthday.
+        :param user_id: The ID of the user.
+        """
+        if str(user_id) in self.birthdays:
+            del self.birthdays[str(user_id)]
+        
+    def get_birthday(self, user_id):
+        """
+        Retrieve a user's birthday.
+        :param user_id: The ID of the user.
+        :return: The birthday date in "DD-MM" format, or None if not set.
+        """
+        return self.birthdays.get(str(user_id))
+
+    def get_today_birthdays(self):
+        """
+        Retrieve a list of user IDs whose birthdays are today.
+        :return: List of user IDs.
+        """
+        today = time.strftime("%d-%m")
+        return [user_id for user_id, birthday in self.birthdays.items() if birthday == today]
 
     def add_deleted_message(self, guild_id, message):
         """Add a deleted message to the cache."""
