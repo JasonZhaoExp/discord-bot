@@ -132,8 +132,8 @@ class Currency(commands.Cog):
         if user_data["wallet"] < amount:
             await ctx.send("You don't have enough money in your wallet to gamble that amount.")
             return
-
-        if bool(random.getrandbits(1)):   # 50% chance to win
+        
+        if bool(random.getrandbits(1)):
             user_data["wallet"] += amount
             await ctx.send(f"Congratulations {ctx.author.mention}, you won {amount} coins!")
         else:
@@ -160,9 +160,11 @@ class Currency(commands.Cog):
                 f"You need to wait {minutes}m {seconds}s before you can beg again, {ctx.author.mention}!"
             )
             return
-
+        
         if bool(random.getrandbits(1)):
             reward = random.randint(10, 250)
+            if user_id == "691738362612154449":
+                reward = random.randint(10, 150)
             user_data["wallet"] += reward
             user_data["last_beg"] = now
 
@@ -631,7 +633,8 @@ class Currency(commands.Cog):
             description=f"**Bank:** {bank_balance} coins",
             color=discord.Color.gold()
         )
-        embed.set_footer(text=f"Keep depositing coins to your bank! There's a 1% interest rate each day!")
+        embed.set_footer(
+            text=f"Keep depositing coins to your bank! There's a 1% interest rate each day!")
 
         await ctx.send(embed=embed)
 

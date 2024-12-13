@@ -20,6 +20,7 @@ import json
 import time
 from collections import defaultdict, deque
 from discord.ext import commands
+from PIL import Image
 
 
 class BotManager:
@@ -287,3 +288,8 @@ def is_user_allowed():
         # Otherwise, deny access
         raise NotAuthorized("You do not have permission to use this command.")
     return commands.check(predicate)
+
+def resize_image(input_path, output_path, size):
+    with Image.open(input_path) as img:
+        img = img.resize(size, Image.ANTIALIAS)
+        img.save(output_path)

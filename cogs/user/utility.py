@@ -65,6 +65,20 @@ class Utility(commands.Cog):
             f"**After:** {edited_message['new_content']}"
         )
 
+    @commands.command()
+    @is_user_allowed()
+    async def bonk(self, ctx, member: discord.Member):
+        """Bonk a member"""
+        embed = discord.Embed(
+            title="BONK!",
+            description=f"{ctx.author.mention} has bonked {member.mention}! Have fun in horny jail :3",
+            color=discord.Color.blurple()
+        )
+        file_path = "./assets/VBbonk_resized.png"
+        file = discord.File(file_path, filename="VBbonk.png")
+        embed.set_image(url="attachment://VBbonk.png")
+        await ctx.send(embed=embed, file=file)
+
     @commands.group(invoke_without_command=True)
     @is_user_allowed()
     async def summon(self, ctx):
